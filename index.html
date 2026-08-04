@@ -16,8 +16,9 @@
     <meta name="twitter:title" content="CRBN" />
     <meta name="twitter:description" content="FX, metals, futures & risk assessment" />
 
-    <!-- Preload LCP Image -->
-    <link rel="preload" as="image" href="./banner_light.jpg" fetchpriority="high" />
+    <!-- Preload LCP Image depending on theme preference -->
+    <link rel="preload" as="image" href="./banner_light.jpg" media="(prefers-color-scheme: light)" fetchpriority="high" />
+    <link rel="preload" as="image" href="./banner_dark.jpg" media="(prefers-color-scheme: dark)" fetchpriority="high" />
 
     <!-- Google Fonts: Inter (Non-render blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
