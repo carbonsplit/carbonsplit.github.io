@@ -6,7 +6,7 @@ export default function ProfileSection() {
 
   const handleCopyEmail = (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText('mohit22abc@gmail.com');
+    navigator.clipboard.writeText('carbonsplit@proton.me');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -96,14 +96,14 @@ export default function ProfileSection() {
           You can reach out to me at{' '}
           <span className="relative group inline-block">
             <a
-              href="mailto:mohit22abc@gmail.com"
+              href="mailto:carbonsplit@proton.me"
               className="
                 text-neutral-900 dark:text-white font-medium
                 hover:underline underline-offset-4 decoration-neutral-400/50
                 transition-colors duration-500
               "
             >
-              mohit22abc@gmail.com
+              carbonsplit@proton.me
             </a>
             <button
               onClick={handleCopyEmail}
