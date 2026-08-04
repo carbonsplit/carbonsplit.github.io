@@ -68,7 +68,7 @@ export default function ProfileSection() {
               hover:underline underline-offset-4 decoration-neutral-400/50
               transition-colors duration-500
             "
-          ><img src="/jx-logo.png" alt="" className="w-5 h-5 rounded-sm inline align-middle mr-1 -translate-y-0.5 dark:invert transition-all duration-500" />JournalX</a>{' '}
+          ><img src="/jx-logo.png" alt="" aria-hidden="true" className="w-5 h-5 rounded-sm inline align-middle mr-1 -translate-y-0.5 dark:invert transition-all duration-500" />JournalX</a>{' '}
           (a simple, fast paced trading journal) & educating people in the
           industry along the way. Scaling{' '}
           <a
@@ -82,6 +82,7 @@ export default function ProfileSection() {
             "
           >
             <svg
+              aria-hidden="true"
               className="w-5 h-5 inline align-middle mr-1 -translate-y-0.5 fill-[#5865F2]"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -101,31 +102,34 @@ export default function ProfileSection() {
                 text-neutral-900 dark:text-white font-medium
                 hover:underline underline-offset-4 decoration-neutral-400/50
                 transition-colors duration-500
+                focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:outline-none rounded
               "
             >
               carbonsplit@proton.me
             </a>
             <button
               onClick={handleCopyEmail}
+              aria-label={copied ? "Email address copied to clipboard" : "Copy email address to clipboard"}
               className="
-                absolute -top-8 left-1/2 -translate-x-1/2 translate-y-1 group-hover:translate-y-0
-                opacity-0 group-hover:opacity-100
+                absolute -top-8 left-1/2 -translate-x-1/2 translate-y-1 group-hover:translate-y-0 group-focus-within:translate-y-0
+                opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
                 transition-all duration-300
                 bg-neutral-900 dark:bg-white
                 text-white dark:text-black
                 text-[0.7rem] font-medium px-2 py-1.5 rounded shadow-lg
-                whitespace-nowrap pointer-events-none group-hover:pointer-events-auto
+                whitespace-nowrap pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto
                 flex items-center gap-1.5
+                focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:outline-none
               "
             >
               {copied ? (
                 <>
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <svg aria-hidden="true" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                   Copied!
                 </>
               ) : (
                 <>
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg aria-hidden="true" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   Copy
                 </>
               )}
@@ -141,9 +145,11 @@ export default function ProfileSection() {
               text-neutral-900 dark:text-white font-medium
               hover:underline underline-offset-4 decoration-neutral-400/50
               transition-colors duration-500
+              focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:outline-none rounded
             "
           >
             <svg
+              aria-hidden="true"
               className="w-3.5 h-3.5 inline align-middle mr-1 fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

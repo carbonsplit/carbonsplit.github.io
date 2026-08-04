@@ -64,7 +64,7 @@ export default function TradingPerformance() {
             ${stats.currentEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
           <div className="mt-1 text-[0.75rem] font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-            <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+            <svg aria-hidden="true" className="w-3 h-3 fill-current" viewBox="0 0 24 24">
               <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4z"/>
             </svg>
             +${profit.toLocaleString('en-US', { minimumFractionDigits: 2 })} ({profitPercentage}%)
@@ -101,7 +101,7 @@ export default function TradingPerformance() {
       {/* Footer Info / Badge */}
       <div className="mt-3 flex items-center justify-between text-[0.75rem] text-neutral-400 dark:text-neutral-500 px-1">
         <div className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 fill-current text-yellow-500" viewBox="0 0 24 24">
+          <svg aria-hidden="true" className="w-3.5 h-3.5 fill-current text-yellow-500" viewBox="0 0 24 24">
             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
           </svg>
           <span>Verified via <strong>Goat Funded Futures</strong> ({stats.platform})</span>
