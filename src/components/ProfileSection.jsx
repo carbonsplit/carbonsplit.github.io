@@ -34,7 +34,7 @@ export default function ProfileSection() {
               transition-colors duration-500
             "
           >
-            Mohit <span className="text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500">(@nqmemoir)</span>
+            CRBN <span className="text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500">(@carbonsplit)</span>
           </h1>
           <p
             className="
@@ -133,7 +133,7 @@ export default function ProfileSection() {
           </span>{' '}
           or message me on{' '}
           <a
-            href="https://x.com/nqmemoir"
+            href="https://x.com/carbonsplit"
             target="_blank"
             rel="noopener noreferrer"
             className="
