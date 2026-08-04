@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
-export default function TradingPerformance() {
+const TradingPerformance = memo(function TradingPerformance() {
   const [stats, setStats] = useState({
     accountName: 'MOHIT71208',
     accountType: 'Instant 50K - Funded',
@@ -112,4 +112,6 @@ export default function TradingPerformance() {
       </div>
     </div>
   );
-}
+});
+
+export default TradingPerformance;

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import TradingPerformance from './TradingPerformance';
 
-export default function ProfileSection() {
+const ProfileSection = memo(function ProfileSection() {
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = (e) => {
@@ -160,4 +160,6 @@ export default function ProfileSection() {
       <TradingPerformance />
     </section>
   );
-}
+});
+
+export default ProfileSection;
