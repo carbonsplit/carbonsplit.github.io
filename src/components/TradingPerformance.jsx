@@ -1,5 +1,66 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Validates the structure and data types of fetched prop firm stats.
+ * Aligns with "Trust nothing, verify everything" security principle.
+ * Prevents execution errors, division by zero, or rendering of invalid data.
+ */
+function validateStats(data) {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid stats data format: root is not an object');
+  }
+
+  // Define string fields with length limits to prevent denial-of-service/buffer issues
+  const stringFields = ['accountName', 'accountType', 'status', 'platform'];
+  for (const field of stringFields) {
+    if (typeof data[field] !== 'string' || data[field].length > 100) {
+      throw new Error(`Invalid or insecure string for field: ${field}`);
+    }
+  }
+
+  // Ensure numeric fields are valid finite numbers and are not negative
+  const numericFields = [
+    'startingBalance',
+    'currentBalance',
+    'currentEquity',
+    'dailyDrawdownLeft',
+    'dailyDrawdownLimit',
+    'maxDrawdownLeft',
+    'maxDrawdownLimit',
+    'consistency',
+    'consistencyMax'
+  ];
+  for (const field of numericFields) {
+    const val = data[field];
+    if (typeof val !== 'number' || isNaN(val) || !isFinite(val) || val < 0) {
+      throw new Error(`Invalid or unsafe numeric value for field: ${field}`);
+    }
+  }
+
+  // Prevent division-by-zero during percentage calculation
+  if (data.startingBalance === 0) {
+    throw new Error('startingBalance cannot be zero');
+  }
+
+  // Return a sanitised object to avoid prototype pollution or property injection
+  return {
+    accountName: data.accountName,
+    accountType: data.accountType,
+    status: data.status,
+    platform: data.platform,
+    startingBalance: data.startingBalance,
+    currentBalance: data.currentBalance,
+    currentEquity: data.currentEquity,
+    dailyDrawdownLeft: data.dailyDrawdownLeft,
+    dailyDrawdownLimit: data.dailyDrawdownLimit,
+    maxDrawdownLeft: data.maxDrawdownLeft,
+    maxDrawdownLimit: data.maxDrawdownLimit,
+    consistency: data.consistency,
+    consistencyMax: data.consistencyMax,
+    lastUpdated: typeof data.lastUpdated === 'string' && data.lastUpdated.length <= 100 ? data.lastUpdated : '2026-07-23T12:00:00Z'
+  };
+}
+
 export default function TradingPerformance() {
   const [stats, setStats] = useState({
     accountName: 'MOHIT71208',
@@ -24,7 +85,10 @@ export default function TradingPerformance() {
         if (res.ok) return res.json();
         throw new Error('Failed to fetch stats');
       })
-      .then((data) => setStats(data))
+      .then((data) => {
+        const validated = validateStats(data);
+        setStats(validated);
+      })
       .catch((err) => console.log('Using default stats snapshot:', err));
   }, []);
 
