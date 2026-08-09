@@ -68,7 +68,7 @@ export default function ProfileSection() {
               hover:underline underline-offset-4 decoration-neutral-400/50
               transition-colors duration-500
             "
-          ><img src="/jx-logo.png" alt="" className="w-5 h-5 rounded-sm inline align-middle mr-1 -translate-y-0.5 dark:invert transition-all duration-500" />JournalX</a>{' '}
+          ><img src="/jx-logo.png" alt="" className="w-3.5 h-3.5 rounded-sm inline align-top mr-0.5 -translate-y-1 dark:invert transition-all duration-500" />JournalX</a>{' '}
           (a simple, fast paced trading journal) & educating people in the
           industry along the way. Scaling{' '}
           <a
@@ -82,7 +82,7 @@ export default function ProfileSection() {
             "
           >
             <svg
-              className="w-5 h-5 inline align-middle mr-1 -translate-y-0.5 fill-[#5865F2]"
+              className="w-3.5 h-3.5 inline align-top mr-0.5 -translate-y-1 fill-[#5865F2]"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
