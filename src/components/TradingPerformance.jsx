@@ -99,16 +99,9 @@ export default function TradingPerformance() {
       </div>
 
       {/* Footer Info / Badge */}
-      <div className="mt-3 flex items-center justify-between text-[0.75rem] text-neutral-400 dark:text-neutral-500 px-1">
-        <div className="flex items-center gap-1.5">
-          <svg className="w-3.5 h-3.5 fill-current text-yellow-500" viewBox="0 0 24 24">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-          </svg>
-          <span>Verified via <strong>Goat Funded Futures</strong> ({stats.platform})</span>
-        </div>
-        <div>
-          Consistency: <span className="font-medium text-neutral-700 dark:text-neutral-300">{stats.consistency}%</span>
-        </div>
+      <div className="mt-3 flex items-center justify-between text-[0.75rem] text-neutral-500 dark:text-neutral-400">
+        <span>Verified via <strong className="font-medium text-neutral-700 dark:text-neutral-300">Goat Funded Futures</strong> ({stats.platform})</span>
+        <span>Consistency: <strong className="font-medium text-neutral-700 dark:text-neutral-300">{stats.consistency}%</strong></span>
       </div>
     </div>
   );
