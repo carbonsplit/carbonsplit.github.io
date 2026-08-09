@@ -60,7 +60,7 @@ Error generating stack: `+e.message+`
               text-[1.5rem] font-semibold tracking-tight leading-tight
               text-neutral-900 dark:text-white
               transition-colors duration-500
-            `,children:[`M. `,(0,f.jsx)(`span`,{className:`text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500`,children:`(@carbonsplit)`})]}),(0,f.jsx)(`p`,{className:`
+            `,children:[`M `,(0,f.jsx)(`span`,{className:`text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500`,children:`(@carbonsplit)`})]}),(0,f.jsx)(`p`,{className:`
               text-[0.9rem] font-normal mt-1
               text-neutral-500 dark:text-neutral-400
               transition-colors duration-500
