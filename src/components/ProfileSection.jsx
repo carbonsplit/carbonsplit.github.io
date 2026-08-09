@@ -34,7 +34,7 @@ export default function ProfileSection() {
               transition-colors duration-500
             "
           >
-            CRBN <span className="text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500">(@carbonsplit)</span>
+            M. <span className="text-neutral-400 dark:text-neutral-500 font-normal transition-colors duration-500">(@carbonsplit)</span>
           </h1>
           <p
             className="
