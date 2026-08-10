@@ -137,14 +137,13 @@ export default function ProfileSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="
-              inline-flex items-center
               text-neutral-900 dark:text-white font-medium
               hover:underline underline-offset-4 decoration-neutral-400/50
               transition-colors duration-500
             "
           >
             <svg
-              className="w-3.5 h-3.5 inline align-middle mr-1 fill-current"
+              className="w-3.5 h-3.5 inline align-top mr-0.5 -translate-y-1 fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
