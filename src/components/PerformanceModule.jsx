@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SolvingOrb from './SolvingOrb';
+import { ThinkingOrb } from 'thinking-orbs';
 
 
 const PerformanceModule = () => {
@@ -57,9 +57,7 @@ const PerformanceModule = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
         <div className="flex items-center gap-3">
-          <span className="text-emerald-500 dark:text-emerald-400">
-            <SolvingOrb size={16} />
-          </span>
+          <ThinkingOrb state="solving" size={20} />
           <div>
             <h2 className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-neutral-500 dark:text-neutral-400">
               LIVE PROP-FIRM PERFORMANCE

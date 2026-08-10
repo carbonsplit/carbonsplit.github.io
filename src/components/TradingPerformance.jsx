@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import SolvingOrb from './SolvingOrb';
+import { ThinkingOrb } from 'thinking-orbs';
 
 
 export default function TradingPerformance() {
@@ -40,9 +40,7 @@ export default function TradingPerformance() {
       {/* Section Title & Header */}
       <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
         <div className="flex items-center gap-2.5">
-          <span className="text-emerald-500 dark:text-emerald-400">
-            <SolvingOrb size={18} />
-          </span>
+          <ThinkingOrb state="solving" size={20} />
           <h3 className="text-[0.85rem] font-semibold tracking-wider uppercase text-neutral-900 dark:text-white transition-colors duration-500">
             Prop Firm Live Stats
           </h3>
