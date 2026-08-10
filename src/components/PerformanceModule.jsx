@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SolvingOrb from './SolvingOrb';
 
 
 const PerformanceModule = () => {
@@ -56,10 +57,9 @@ const PerformanceModule = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
         <div className="flex items-center gap-3">
-          <div className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </div>
+          <span className="text-emerald-500 dark:text-emerald-400">
+            <SolvingOrb size={16} />
+          </span>
           <div>
             <h2 className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-neutral-500 dark:text-neutral-400">
               LIVE PROP-FIRM PERFORMANCE
