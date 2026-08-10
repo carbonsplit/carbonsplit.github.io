@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ThinkingOrb } from 'thinking-orbs';
 
 export default function TradingPerformance() {
   const [stats, setStats] = useState({
@@ -7,15 +8,15 @@ export default function TradingPerformance() {
     status: 'Active',
     platform: 'Tradovate',
     startingBalance: 50000.00,
-    currentBalance: 51926.21,
-    currentEquity: 51926.21,
-    dailyDrawdownLeft: 3426.21,
+    currentBalance: 52062.41,
+    currentEquity: 52062.41,
+    dailyDrawdownLeft: 3562.41,
     dailyDrawdownLimit: 48500.00,
-    maxDrawdownLeft: 2018.70,
+    maxDrawdownLeft: 2154.90,
     maxDrawdownLimit: 49907.51,
-    consistency: 35.25,
+    consistency: 32.93,
     consistencyMax: 20.00,
-    lastUpdated: '2026-07-23T12:00:00Z'
+    lastUpdated: '2026-07-28T07:00:00Z'
   });
 
   useEffect(() => {
@@ -28,6 +29,8 @@ export default function TradingPerformance() {
       .catch((err) => console.log('Using default stats snapshot:', err));
   }, []);
 
+  if (!stats) return null;
+
   const profit = stats.currentEquity - stats.startingBalance;
   const profitPercentage = ((profit / stats.startingBalance) * 100).toFixed(2);
 
@@ -36,10 +39,9 @@ export default function TradingPerformance() {
       {/* Section Title & Header */}
       <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
         <div className="flex items-center gap-2.5">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
+          <div className="flex items-center justify-center w-5 h-5">
+            <ThinkingOrb state="listening" size={18} />
+          </div>
           <h3 className="text-[0.85rem] font-semibold tracking-wider uppercase text-neutral-900 dark:text-white transition-colors duration-500">
             Prop Firm Live Stats
           </h3>
