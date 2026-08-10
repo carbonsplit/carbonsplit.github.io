@@ -100,7 +100,7 @@ export default function TradingPerformance() {
       </div>
 
       {/* Footer Info / Badge */}
-      <div className="mt-3 flex items-center justify-between text-[0.75rem] text-neutral-500 dark:text-neutral-400">
+      <div className="mt-3 px-1.5 flex items-center justify-between text-[0.75rem] text-neutral-500 dark:text-neutral-400">
         <span>Verified via <strong className="font-medium text-neutral-700 dark:text-neutral-300">Goat Funded Futures</strong> ({stats.platform})</span>
         <span>Consistency: <strong className="font-medium text-neutral-700 dark:text-neutral-300">{stats.consistency}%</strong></span>
       </div>
