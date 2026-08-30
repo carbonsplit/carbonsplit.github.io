@@ -1,16 +1,14 @@
 {
-  "accountName": "MOHIT71208",
-  "accountType": "Instant 50K - Funded",
+  "accountName": "4571",
+  "accountType": "Instant 50k",
   "status": "Active",
   "platform": "Tradovate",
-  "startingBalance": 50000.00,
-  "currentBalance": 52062.41,
-  "currentEquity": 52062.41,
-  "dailyDrawdownLeft": 3562.41,
-  "dailyDrawdownLimit": 48500.00,
-  "maxDrawdownLeft": 2154.90,
+  "startingBalance": 50000.0,
+  "currentBalance": 51687.23,
+  "currentEquity": 51687.23,
+  "dailyDrawdownLeft": 1500.0,
+  "dailyDrawdownLimit": 50187.23,
+  "maxDrawdownLeft": 1779.72,
   "maxDrawdownLimit": 49907.51,
-  "consistency": 32.93,
-  "consistencyMax": 20.00,
-  "lastUpdated": "2026-07-28T07:00:00Z"
+  "lastUpdated": "2026-08-30T12:56:49Z"
 }
