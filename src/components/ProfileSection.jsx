@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TradingPerformance from './TradingPerformance';
+import CalendarSection from './CalendarSection';
 
 export default function ProfileSection() {
   const [copied, setCopied] = useState(false);
@@ -154,6 +155,9 @@ export default function ProfileSection() {
 
       {/* Prop Firm Performance Stats */}
       <TradingPerformance />
+
+      {/* Trading Calendar */}
+      <CalendarSection />
     </section>
   );
 }

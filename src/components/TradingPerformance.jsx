@@ -45,13 +45,10 @@ export default function TradingPerformance() {
             Prop Firm Live Stats
           </h3>
           <span className="text-[0.7rem] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-            {stats.status} • {stats.accountType}
+            {stats.status} • {stats.accountType.replace(/50k/i, "50K")}
           </span>
         </div>
 
-        <span className="text-[0.75rem] text-neutral-400 dark:text-neutral-500">
-          Account #{stats.accountName}
-        </span>
       </div>
 
       {/* Stats Cards Grid */}
@@ -81,7 +78,7 @@ export default function TradingPerformance() {
             ${stats.dailyDrawdownLeft.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
           <div className="mt-1 text-[0.75rem] text-neutral-400 dark:text-neutral-500">
-            Limit Floor: ${stats.dailyDrawdownLimit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            (Maximum permitted daily loss)
           </div>
         </div>
 
@@ -94,16 +91,11 @@ export default function TradingPerformance() {
             ${stats.maxDrawdownLeft.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
           <div className="mt-1 text-[0.75rem] text-neutral-400 dark:text-neutral-500">
-            Limit Floor: ${stats.maxDrawdownLimit.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            (Total permitted loss)
           </div>
         </div>
       </div>
 
-      {/* Footer Info / Badge */}
-      <div className="mt-3 px-1.5 flex items-center justify-between text-[0.75rem] text-neutral-500 dark:text-neutral-400">
-        <span>Verified via <strong className="font-medium text-neutral-700 dark:text-neutral-300">Goat Funded Futures</strong> ({stats.platform})</span>
-        <span>Consistency: <strong className="font-medium text-neutral-700 dark:text-neutral-300">{stats.consistency}%</strong></span>
-      </div>
     </div>
   );
 }
