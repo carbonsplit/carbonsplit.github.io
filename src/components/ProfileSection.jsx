@@ -85,11 +85,11 @@ export default function ProfileSection() {
             <img
               src="/favicon.png"
               alt=""
-              className="w-4 h-4 rounded-sm inline align-top ml-1 mr-0.5 -translate-y-0.5 transition-all duration-500"
+              className="w-4 h-4 rounded-sm inline align-top mr-0.5 -translate-y-0.5 transition-all duration-500"
             />
             <span className="inline-block -translate-y-[6.5px] mr-[2.5px] text-neutral-400 dark:text-neutral-500 font-normal">,</span>
             <svg
-              className="w-4 h-4 inline align-top mr-0.5 -translate-y-0.5 fill-current transition-all duration-500"
+              className="w-4 h-4 inline align-top mr-1.5 -translate-y-0.5 fill-current transition-all duration-500"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
