@@ -1,10 +1,10 @@
 {
   "events": [
     {
-      "id": "gff-2026-08-31",
-      "title": "Profit +$193.80",
-      "startTime": "2026-08-31T00:00:00Z",
-      "endTime": "2026-08-31T23:59:59Z",
+      "id": "gff-2026-09-02",
+      "title": "Profit +$12.55",
+      "startTime": "2026-09-02T00:00:00Z",
+      "endTime": "2026-09-02T23:59:59Z",
       "color": "green",
       "category": "Trading"
     }
