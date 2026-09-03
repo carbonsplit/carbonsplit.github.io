@@ -6,9 +6,9 @@
   "startingBalance": 50000.0,
   "currentBalance": 51893.58,
   "currentEquity": 51893.58,
-  "dailyDrawdownLeft": 1512.55,
-  "dailyDrawdownLimit": 50381.03,
+  "dailyDrawdownLeft": 1500.0,
+  "dailyDrawdownLimit": 50393.58,
   "maxDrawdownLeft": 1986.07,
   "maxDrawdownLimit": 49907.51,
-  "lastUpdated": "2026-09-02T17:28:01Z"
+  "lastUpdated": "2026-09-03T07:30:45Z"
 }
