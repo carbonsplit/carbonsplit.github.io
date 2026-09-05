@@ -4,11 +4,11 @@
   "status": "Active",
   "platform": "Tradovate",
   "startingBalance": 50000.0,
-  "currentBalance": 51893.58,
-  "currentEquity": 51893.58,
-  "dailyDrawdownLeft": 1500.0,
+  "currentBalance": 51887.06,
+  "currentEquity": 51887.06,
+  "dailyDrawdownLeft": 1493.48,
   "dailyDrawdownLimit": 50393.58,
-  "maxDrawdownLeft": 1986.07,
+  "maxDrawdownLeft": 1979.55,
   "maxDrawdownLimit": 49907.51,
-  "lastUpdated": "2026-09-03T07:30:45Z"
+  "lastUpdated": "2026-09-05T07:30:22Z"
 }

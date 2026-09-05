@@ -111,6 +111,14 @@
       "endTime": "2026-09-02T23:59:59Z",
       "color": "green",
       "category": "Trading"
+    },
+    {
+      "id": "gff-2026-09-04",
+      "title": "Loss -$6.52",
+      "startTime": "2026-09-04T00:00:00Z",
+      "endTime": "2026-09-04T23:59:59Z",
+      "color": "red",
+      "category": "Trading"
     }
   ]
 }
