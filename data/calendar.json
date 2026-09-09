@@ -23,6 +23,22 @@
       "endTime": "2026-09-04T23:59:59Z",
       "color": "red",
       "category": "Trading"
+    },
+    {
+      "id": "gff-2026-09-07",
+      "title": "Profit +$107.94",
+      "startTime": "2026-09-07T00:00:00Z",
+      "endTime": "2026-09-07T23:59:59Z",
+      "color": "green",
+      "category": "Trading"
+    },
+    {
+      "id": "gff-2026-09-09",
+      "title": "Profit +$150.10",
+      "startTime": "2026-09-09T00:00:00Z",
+      "endTime": "2026-09-09T23:59:59Z",
+      "color": "green",
+      "category": "Trading"
     }
   ]
 }
