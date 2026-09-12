@@ -31,7 +31,7 @@ const defaultColors = [
   { name: "Purple", value: "purple", bg: "bg-purple-500", text: "text-purple-700" },
   { name: "Orange", value: "orange", bg: "bg-orange-500", text: "text-orange-700" },
   { name: "Pink", value: "pink", bg: "bg-pink-500", text: "text-pink-700" },
-  { name: "Red", value: "red", bg: "bg-red-500", text: "text-red-700" },
+  { name: "Red", value: "red", bg: "bg-[#f0e8fa] dark:bg-[#231d2e]", text: "text-[#6b21a8] dark:text-[#c7b7df]" },
 ]
 
 export function EventManager({
@@ -1155,10 +1155,9 @@ function MonthView({
               className={cn(
                 "min-h-20 border-b border-r p-1 transition-colors last:border-r-0 sm:min-h-24 sm:p-2",
                 !isCurrentMonth && "bg-muted/30",
-                hasPnl && dayPnl > 0 && "bg-green-500/15 hover:bg-green-500/25",
-                hasPnl && dayPnl < 0 && "bg-red-500/15 hover:bg-red-500/25",
+                hasPnl && dayPnl > 0 && "bg-green-500/15 hover:bg-green-500/25 border-green-700/20",
+                hasPnl && dayPnl < 0 && "bg-[#f0e8fa]/80 hover:bg-[#f0e8fa] dark:bg-[#231d2e] dark:hover:bg-[#2c243a]",
                 !hasPnl && "hover:bg-accent/50",
-                hasPnl && "border-green-700/20",
               )}
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => onDrop(day)}
@@ -1175,7 +1174,7 @@ function MonthView({
                 <div
                   className={cn(
                     "text-xs font-semibold sm:text-sm",
-                    dayPnl > 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
+                    dayPnl > 0 ? "text-green-600 dark:text-green-400" : "text-[#6b21a8] dark:text-[#c7b7df]",
                   )}
                 >
                   {pnlLabel}
