@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AnnotatedText } from '@/components/ui/annotated-text';
 import TradingPerformance from './TradingPerformance';
 import CalendarSection from './CalendarSection';
 
@@ -44,7 +45,7 @@ export default function ProfileSection() {
               transition-colors duration-500
             "
           >
-            Trading & Motorsports.
+            <AnnotatedText variant="underline" color="text-yellow-400">Trading & Motorsports.</AnnotatedText>
           </p>
         </div>
       </div>

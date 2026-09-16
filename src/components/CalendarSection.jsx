@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { EventManager } from './ui/event-manager';
+import TradingCalendar from './TradingCalendar';
 
 export default function CalendarSection() {
   const [events, setEvents] = useState([]);
@@ -32,7 +32,7 @@ export default function CalendarSection() {
 
   return (
     <div className="w-full mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.08] transition-colors duration-500">
-      <EventManager events={events} readOnly defaultView="month" />
+      <TradingCalendar events={events} />
     </div>
   );
 }

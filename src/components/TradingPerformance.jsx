@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AnnotatedText } from '@/components/ui/annotated-text';
 import { ThinkingOrb } from 'thinking-orbs';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
@@ -87,12 +88,12 @@ export default function TradingPerformance() {
           <h3 className="text-[0.82rem] font-semibold tracking-wider uppercase text-neutral-900 dark:text-white transition-colors duration-500">
             Prop Firm Live Stats:
           </h3>
-          <div
-            style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
-            className="px-2 py-0.5 rounded-[2px] bg-[#f0e8fa] dark:bg-[#231d2e] text-[#6b21a8] dark:text-[#c7b7df] text-[0.72rem] font-medium tracking-[0.08em] uppercase transition-colors duration-500"
+          <AnnotatedText
+            variant="highlight"
+            className="text-[0.82rem] font-semibold tracking-wider uppercase text-neutral-900 dark:text-white"
           >
             Funded // Instant 50K
-          </div>
+          </AnnotatedText>
         </div>
       </div>
 
