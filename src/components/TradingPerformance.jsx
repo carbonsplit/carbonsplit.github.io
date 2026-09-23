@@ -8,8 +8,9 @@ import AccountCards from './AccountCards';
  * `live: true` merges fresh numbers from ./data/stats.json over `stats`.
  * `sample: true` shows a "Sample data" tag.
  *
- * TODO(real numbers): change30d is a placeholder. The loss limits are the
- * account rules; stats.json (via the Carbon Stats bookmarklet) overrides all of these.
+ * The 30d change is summed from the live calendar (last 30 days up to lastUpdated)
+ * unless stats.json provides change30d. Loss limits are the account rules;
+ * stats.json (via the Carbon Stats bookmarklet) overrides all of these.
  */
 const ACCOUNTS = [
   {
@@ -24,7 +25,6 @@ const ACCOUNTS = [
       maxDrawdownLeft: 2100.19,
       maxDrawdownLimit: 49907.51,
       lastUpdated: '2026-09-12T16:05:00Z',
-      change30d: 812.4,
       dailyLossLimit: 1500.0, // fixed, resets every day
       maxLossLimit: 2500.0, // fixed
       dailyResetLabel: '2:30 AM IST, daily',
@@ -36,9 +36,27 @@ const MENU_ITEMS = ACCOUNTS.map((a) => ({ label: a.label }));
 
 const pctOf = (change, base) => (base ? (change / base) * 100 : 0);
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// P&L of a calendar event: explicit `pnl`, else parsed from "Profit +$12.55" / "Loss -$6.52"
+function eventPnl(e) {
+  if (typeof e.pnl === 'number') return e.pnl;
+  const m = String(e.title || '').match(/([+-])\$([\d,]+(?:\.\d+)?)/);
+  return m ? (m[1] === '-' ? -1 : 1) * parseFloat(m[2].replace(/,/g, '')) : 0;
+}
+
+function sumLast30Days(events, endDate) {
+  const end = endDate && !isNaN(endDate) ? endDate.getTime() : Date.now();
+  return events.reduce((sum, e) => {
+    const t = new Date(e.startTime).getTime();
+    return t > end - 30 * DAY_MS && t <= end ? sum + eventPnl(e) : sum;
+  }, 0);
+}
+
 export default function TradingPerformance() {
   const [selected, setSelected] = useState(0);
   const [liveStats, setLiveStats] = useState(null);
+  const [calendarEvents, setCalendarEvents] = useState(null);
 
   useEffect(() => {
     fetch('./data/stats.json')
@@ -48,6 +66,11 @@ export default function TradingPerformance() {
       })
       .then((data) => setLiveStats(data))
       .catch((err) => console.log('Using default stats snapshot:', err));
+
+    fetch('./data/calendar.json')
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to fetch calendar'))))
+      .then((data) => setCalendarEvents(Array.isArray(data) ? data : data.events || []))
+      .catch((err) => console.log('No calendar for 30d change:', err));
   }, []);
 
   const account = ACCOUNTS[selected];
@@ -55,8 +78,9 @@ export default function TradingPerformance() {
 
   const balance = stats.currentEquity ?? stats.currentBalance ?? 0;
   const allTime = balance - (stats.startingBalance ?? balance);
-  const change30d = stats.change30d ?? 0;
   const updatedDate = stats.lastUpdated ? new Date(stats.lastUpdated) : null;
+  const change30d =
+    stats.change30d ?? (account.live && calendarEvents ? sumLast30Days(calendarEvents, updatedDate) : 0);
 
   const summary = {
     starting: stats.startingBalance ?? null,
