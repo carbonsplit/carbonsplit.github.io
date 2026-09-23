@@ -2,8 +2,23 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource/instrument-serif/400.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ===== Editorial New (thin italic) ===== */
+@font-face {
+  font-family: 'Editorial New';
+  src: url('./assets/fonts/editorial-today.thin-italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-editorial: 'Editorial New', 'Times New Roman', Georgia, serif;
+}
 
 /* ===== shadcn/ui Design Tokens ===== */
 :root {
@@ -197,4 +212,13 @@ body {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+/* ===== Charge bar tip pulse ===== */
+@keyframes charge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="charge-pulse"] { animation: none !important; }
 }

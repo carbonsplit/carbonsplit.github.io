@@ -9,15 +9,20 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "bookmarklet": "node tools/stats-bookmarklet/build.mjs",
+    "import-stats": "node tools/stats-bookmarklet/import.mjs stats",
+    "import-calendar": "node tools/stats-bookmarklet/import.mjs calendar"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "clsx": "^2.1.1",
     "cn": "^0.3.0",
     "framer-motion": "^13.4.0",
+    "gsap": "^3.15.0",
     "lucide-react": "^1.37.0",
     "opentype.js": "^2.0.0",
     "react": "^19.2.7",

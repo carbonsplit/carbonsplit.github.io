@@ -113,7 +113,7 @@ export default function TradingCalendar({ events = [] }) {
       {/* Calendar Header */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <h3 className="text-[1.1rem] font-semibold text-neutral-900 dark:text-white tracking-tight">
+          <h3 className="font-display font-normal text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] leading-[0.95] tracking-[-0.025em] text-neutral-900 dark:text-white">
             {monthLabel}
           </h3>
           {(monthStats.profitDays > 0 || monthStats.lossDays > 0) && (

@@ -1,0 +1,119 @@
+/* Adapted from React Bits "PillNav" — themed for light/dark tabs */
+
+.pill-nav {
+  --pill-h: 42px;
+  --pill-pad-x: 16px;
+  --pill-gap: 2px;
+  --pill-text: #6f6c78;
+  --pill-fill: #e7e4f3;
+  --pill-hover-text: #2a2735;
+  --pill-number: #b3afbf;
+  --pill-number-hover: #8a83a8;
+  --pill-ring: #c9c3e3;
+  width: 100%;
+}
+
+.dark .pill-nav {
+  --pill-text: #8e8b96;
+  --pill-fill: #26242e;
+  --pill-hover-text: #e4e0f5;
+  --pill-number: #5c5966;
+  --pill-number-hover: #a39cc4;
+  --pill-ring: #4a4560;
+}
+
+.pill-list {
+  list-style: none;
+  display: flex;
+  gap: var(--pill-gap);
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.pill-list > li {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.pill {
+  position: relative;
+  flex: 1 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--pill-h);
+  padding: 0 var(--pill-pad-x);
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--pill-text);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pill:focus-visible {
+  box-shadow: 0 0 0 1.5px var(--pill-ring);
+}
+
+.pill .hover-circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-radius: 50%;
+  background: var(--pill-fill);
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pill .label-stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  z-index: 2;
+}
+
+.pill .pill-label,
+.pill .pill-label-hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  line-height: 1;
+  will-change: transform;
+}
+
+.pill .pill-label {
+  position: relative;
+  z-index: 2;
+}
+
+.pill .pill-label-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--pill-hover-text);
+  z-index: 3;
+  will-change: transform, opacity;
+}
+
+.pill .pill-number {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  font-weight: 400;
+  color: var(--pill-number);
+}
+
+.pill .pill-label-hover .pill-number {
+  color: var(--pill-number-hover);
+}
+
