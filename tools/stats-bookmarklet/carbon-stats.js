@@ -280,7 +280,7 @@
     picked: 'picked',
     derived: 'converted',
     calc: 'equity − level',
-    check: 'check: outside 0 to limit',
+    check: 'check: below zero',
   };
 
   function renderRow(container, f, value, source, mode) {
@@ -323,10 +323,12 @@
         continue;
       }
       const left = round2(equity - level);
-      const bad = left < 0 || (limit != null && left > limit);
+      // Above the limit is normal after a profitable day; only a negative amount is suspicious
+      const bad = left < 0;
+      const above = !bad && limit != null && left > limit;
       inp.value = left;
       tag.className = `tag ${bad ? 'check' : 'calc'}`;
-      tag.textContent = TAGS[bad ? 'check' : 'calc'];
+      tag.textContent = bad ? TAGS.check : above ? 'above limit (profit)' : TAGS.calc;
     }
   }
 

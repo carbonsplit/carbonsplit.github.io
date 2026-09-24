@@ -102,16 +102,20 @@ export default function TradingPerformance() {
   const dailyLimit = stats.dailyLossLimit ?? 0;
   const resetSinceSnapshot = updatedDate && !isNaN(updatedDate) && lastReset > updatedDate.getTime();
 
+  // Profit can lift the buffer above the base limit — the ceiling rises with it
+  const dailyLeft = resetSinceSnapshot ? dailyLimit : (stats.dailyDrawdownLeft ?? 0);
+  const maxLeft = stats.maxDrawdownLeft ?? 0;
+
   const daily = {
-    left: resetSinceSnapshot ? dailyLimit : (stats.dailyDrawdownLeft ?? 0),
-    limit: dailyLimit,
+    left: dailyLeft,
+    limit: Math.max(dailyLimit, dailyLeft),
     footLabel: 'Resets at',
     footValue: stats.dailyResetLabel ?? 'Session close',
   };
 
   const max = {
-    left: stats.maxDrawdownLeft ?? 0,
-    limit: stats.maxLossLimit ?? 0,
+    left: maxLeft,
+    limit: Math.max(stats.maxLossLimit ?? 0, maxLeft),
     footLabel: 'Trailing floor',
     footValue:
       stats.maxDrawdownLimit != null
