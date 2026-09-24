@@ -1,6 +1,7 @@
 import Header from './components/Header';
 import HeroBanner from './components/HeroBanner';
 import ProfileSection from './components/ProfileSection';
+import ProgressiveBlur from './components/ProgressiveBlur';
 import { useTheme } from './hooks/useTheme';
 
 export default function App() {
@@ -15,6 +16,9 @@ export default function App() {
       "
     >
       <Header isDark={isDark} onToggle={toggle} />
+
+      {/* Content softens as it scrolls under the header */}
+      <ProgressiveBlur position="top" offset={56} height={40} />
 
       {/* Spacer for fixed header */}
       <div className="h-14" />

@@ -30,7 +30,7 @@ const signed = (n) => `${n >= 0 ? '+' : '−'}${usd(n)}`;
 const signedPct = (n) => `${n >= 0 ? '+' : '−'}${Math.abs(n).toFixed(2)}%`;
 
 const CARD =
-  'relative flex flex-col overflow-hidden rounded-[26px] p-6 min-h-[300px] bg-[#f1f0ed] dark:bg-[#1c1c1e] border border-black/[0.04] dark:border-white/[0.04] transition-colors duration-500';
+  'relative flex flex-col overflow-hidden rounded-[26px] p-6 min-h-[300px] bg-[#f1f0ed] dark:bg-[#0e0e0e] border border-black/[0.04] dark:border-white/[0.07] transition-colors duration-500';
 const PILL =
   'inline-flex items-center gap-1.5 rounded-full bg-black/[0.05] dark:bg-white/[0.07] px-3 py-1.5 text-[0.8rem] leading-none text-neutral-700 dark:text-neutral-200 whitespace-nowrap';
 const BIG =
