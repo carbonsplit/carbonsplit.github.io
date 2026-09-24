@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import FloatingMenu from '@/components/ui/liquid-morph-floating-menu';
 import AccountCards from './AccountCards';
+import { useLastReset } from '@/hooks/useDailyReset';
 
 /*
  * Accounts shown in the "Live Accounts" menu. The first entry is the default.
@@ -28,6 +29,7 @@ const ACCOUNTS = [
       dailyLossLimit: 1500.0, // fixed, resets every day
       maxLossLimit: 2500.0, // fixed
       dailyResetLabel: '2:30 AM IST, daily',
+      dailyResetUtcMinutes: 21 * 60, // 2:30 AM IST = 21:00 UTC
     },
   },
 ];
@@ -75,6 +77,7 @@ export default function TradingPerformance() {
 
   const account = ACCOUNTS[selected];
   const stats = { ...account.stats, ...(account.live ? liveStats : null) };
+  const lastReset = useLastReset(stats.dailyResetUtcMinutes ?? 21 * 60);
 
   const balance = stats.currentEquity ?? stats.currentBalance ?? 0;
   const allTime = balance - (stats.startingBalance ?? balance);
@@ -95,9 +98,13 @@ export default function TradingPerformance() {
         : null,
   };
 
+  // Once a reset has passed since the snapshot, the daily buffer is back to its full limit
+  const dailyLimit = stats.dailyLossLimit ?? 0;
+  const resetSinceSnapshot = updatedDate && !isNaN(updatedDate) && lastReset > updatedDate.getTime();
+
   const daily = {
-    left: stats.dailyDrawdownLeft ?? 0,
-    limit: stats.dailyLossLimit ?? 0,
+    left: resetSinceSnapshot ? dailyLimit : (stats.dailyDrawdownLeft ?? 0),
+    limit: dailyLimit,
     footLabel: 'Resets at',
     footValue: stats.dailyResetLabel ?? 'Session close',
   };
