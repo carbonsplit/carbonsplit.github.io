@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TradingPerformance from './TradingPerformance';
 import CalendarSection from './CalendarSection';
 import CarbonScripts from './CarbonScripts';
+import ReelSection from './ReelSection';
 
 // Quiet underlined links (the reference style); logos only for my own products
 const LINK =
@@ -111,6 +112,9 @@ export default function ProfileSection() {
 
       {/* Carbon indicator suite */}
       <CarbonScripts />
+
+      {/* Site reel */}
+      <ReelSection />
     </section>
   );
 }
