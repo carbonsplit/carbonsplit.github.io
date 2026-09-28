@@ -124,6 +124,15 @@
       "color": "green",
       "category": "Trading",
       "pnl": 25.05
+    },
+    {
+      "id": "gff-2026-09-28",
+      "title": "Profit +$262.60",
+      "startTime": "2026-09-28T00:00:00Z",
+      "endTime": "2026-09-28T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 262.6
     }
   ]
 }
