@@ -1,0 +1,4 @@
+## 2026-07-28 - [Client-side API Data Validation & Safe Fallbacks]
+**Vulnerability:** Insecure deserialization/rendering of unvalidated JSON data fetched from remote/local API endpoints can lead to application crashes, potential prototype pollution, or rendering of corrupt/injected values.
+**Learning:** React components that fetch dynamic JSON stats and perform arithmetic on them (e.g. division for percentages) are prone to division-by-zero (yielding NaN or Infinity) and property injection. Front-end architectures should validate incoming network payloads before changing state.
+**Prevention:** Implement strict schema validation (type checking, property constraints, and sanity checks) on all incoming fetch results. Fall back gracefully to a hardcoded safe default state if validation fails to guarantee high availability and UI integrity.
