@@ -133,6 +133,69 @@
       "color": "green",
       "category": "Trading",
       "pnl": 262.6
+    },
+    {
+      "id": "gff-2026-10-12",
+      "title": "Profit +$262.60",
+      "startTime": "2026-10-12T00:00:00Z",
+      "endTime": "2026-10-12T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 262.6
+    },
+    {
+      "id": "gff-2026-10-13",
+      "title": "Profit +$187.55",
+      "startTime": "2026-10-13T00:00:00Z",
+      "endTime": "2026-10-13T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 187.55
+    },
+    {
+      "id": "gff-2026-10-15",
+      "title": "Loss -$31.20",
+      "startTime": "2026-10-15T00:00:00Z",
+      "endTime": "2026-10-15T23:59:59Z",
+      "color": "red",
+      "category": "Trading",
+      "pnl": -31.2
+    },
+    {
+      "id": "gff-2026-10-16",
+      "title": "Profit +$87.55",
+      "startTime": "2026-10-16T00:00:00Z",
+      "endTime": "2026-10-16T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 87.55
+    },
+    {
+      "id": "gff-2026-10-20",
+      "title": "Profit +$100.20",
+      "startTime": "2026-10-20T00:00:00Z",
+      "endTime": "2026-10-20T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 100.2
+    },
+    {
+      "id": "gff-2026-10-21",
+      "title": "Loss -$337.30",
+      "startTime": "2026-10-21T00:00:00Z",
+      "endTime": "2026-10-21T23:59:59Z",
+      "color": "red",
+      "category": "Trading",
+      "pnl": -337.3
+    },
+    {
+      "id": "gff-2026-10-23",
+      "title": "Profit +$250.20",
+      "startTime": "2026-10-23T00:00:00Z",
+      "endTime": "2026-10-23T23:59:59Z",
+      "color": "green",
+      "category": "Trading",
+      "pnl": 250.2
     }
   ]
 }
