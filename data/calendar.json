@@ -205,6 +205,15 @@
       "color": "green",
       "category": "Trading",
       "pnl": 393.9
+    },
+    {
+      "id": "gff-2026-11-04",
+      "title": "Loss -$330.00",
+      "startTime": "2026-11-04T00:00:00Z",
+      "endTime": "2026-11-04T23:59:59Z",
+      "color": "red",
+      "category": "Trading",
+      "pnl": -330
     }
   ]
 }
