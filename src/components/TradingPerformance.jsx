@@ -3,13 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import FloatingMenu from '@/components/ui/liquid-morph-floating-menu';
 import AccountCards from './AccountCards';
 import { useLastReset } from '@/hooks/useDailyReset';
+import { rollingCalendarChange, canUseSnapshotForCalendarPercent } from '@/lib/tradingStats';
 
 /*
  * Accounts shown in the "Live Accounts" menu. The first entry is the default.
  * `live: true` merges fresh numbers from ./data/stats.json over `stats`.
  * `sample: true` shows a "Sample data" tag.
  *
- * The 30d change is summed from the live calendar (last 30 days up to lastUpdated)
+ * The 30d change is summed through the latest calendar trade (or a newer snapshot)
  * unless stats.json provides change30d. Loss limits are the account rules;
  * stats.json (via the Carbon Stats bookmarklet) overrides all of these.
  */
@@ -38,23 +39,6 @@ const MENU_ITEMS = ACCOUNTS.map((a) => ({ label: a.label }));
 
 const pctOf = (change, base) => (base ? (change / base) * 100 : 0);
 
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-// P&L of a calendar event: explicit `pnl`, else parsed from "Profit +$12.55" / "Loss -$6.52"
-function eventPnl(e) {
-  if (typeof e.pnl === 'number') return e.pnl;
-  const m = String(e.title || '').match(/([+-])\$([\d,]+(?:\.\d+)?)/);
-  return m ? (m[1] === '-' ? -1 : 1) * parseFloat(m[2].replace(/,/g, '')) : 0;
-}
-
-function sumLast30Days(events, endDate) {
-  const end = endDate && !isNaN(endDate) ? endDate.getTime() : Date.now();
-  return events.reduce((sum, e) => {
-    const t = new Date(e.startTime).getTime();
-    return t > end - 30 * DAY_MS && t <= end ? sum + eventPnl(e) : sum;
-  }, 0);
-}
-
 export default function TradingPerformance() {
   const [selected, setSelected] = useState(0);
   const [liveStats, setLiveStats] = useState(null);
@@ -82,8 +66,12 @@ export default function TradingPerformance() {
   const balance = stats.currentEquity ?? stats.currentBalance ?? 0;
   const allTime = balance - (stats.startingBalance ?? balance);
   const updatedDate = stats.lastUpdated ? new Date(stats.lastUpdated) : null;
-  const change30d =
-    stats.change30d ?? (account.live && calendarEvents ? sumLast30Days(calendarEvents, updatedDate) : 0);
+  const calendarChange = account.live && calendarEvents
+    ? rollingCalendarChange(calendarEvents, updatedDate) : null;
+  const change30d = stats.change30d ?? calendarChange?.change ?? 0;
+  const changeThrough = stats.change30d == null && calendarChange?.through
+    ? calendarChange.through.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
+    : null;
 
   const summary = {
     starting: stats.startingBalance ?? null,
@@ -91,7 +79,9 @@ export default function TradingPerformance() {
     allTime,
     allTimePct: pctOf(allTime, stats.startingBalance),
     change30d,
+    changeThrough,
     pct30d: pctOf(change30d, balance - change30d),
+    show30dPercent: stats.change30d != null || canUseSnapshotForCalendarPercent(calendarChange?.through, updatedDate),
     updated:
       updatedDate && !isNaN(updatedDate)
         ? updatedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })

@@ -125,13 +125,13 @@ function ChargeBar({ pct, tone }) {
 
 /* ---------- Cards ---------- */
 
-function SummaryCard({ starting, balance, allTime, allTimePct, change30d, pct30d, updated }) {
+function SummaryCard({ starting, balance, allTime, allTimePct, change30d, changeThrough, pct30d, show30dPercent, updated }) {
   const tone = (n) => (n >= 0 ? TONES.green.text : TONES.red.text);
   return (
     <div className={CARD}>
       <div className="flex items-center justify-between text-[0.85rem]">
         <span className="text-neutral-800 dark:text-neutral-200">Summary</span>
-        {updated && <span className="text-neutral-500 dark:text-neutral-400">Updated {updated}</span>}
+        {updated && <span className="text-neutral-500 dark:text-neutral-400">Account snapshot {updated}</span>}
       </div>
 
       {starting != null && (
@@ -142,7 +142,7 @@ function SummaryCard({ starting, balance, allTime, allTimePct, change30d, pct30d
       )}
 
       <div className={starting != null ? 'mt-6' : 'mt-auto pt-10'}>
-        <div className="text-[0.85rem] text-neutral-500 dark:text-neutral-400">Current balance</div>
+        <div className="text-[0.85rem] text-neutral-500 dark:text-neutral-400">Balance at snapshot</div>
         <div className={`mt-3 ${BIG}`}>{usd(balance)}</div>
         <div className="mt-5 flex flex-col items-start gap-2">
           <Pill icon={RefreshCcw}>
@@ -152,9 +152,9 @@ function SummaryCard({ starting, balance, allTime, allTimePct, change30d, pct30d
             </span>
           </Pill>
           <Pill icon={Sparkle}>
-            30d change
+            30d change{changeThrough ? ` · through ${changeThrough}` : ''}
             <span className={`${tone(change30d)} tabular-nums`}>
-              {signed(change30d)} ({signedPct(pct30d)})
+              {signed(change30d)}{show30dPercent ? ` (${signedPct(pct30d)})` : ''}
             </span>
           </Pill>
         </div>
