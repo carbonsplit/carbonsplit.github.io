@@ -1,3 +1,5 @@
+import SmoothScroll from './components/SmoothScroll';
+import PitLaneIntro from './components/PitLaneIntro';
 import Header from './components/Header';
 import HeroBanner from './components/HeroBanner';
 import ProfileSection from './components/ProfileSection';
@@ -20,14 +22,18 @@ export default function App() {
       {/* Content softens as it scrolls under the header */}
       <ProgressiveBlur position="top" offset={56} height={40} />
 
+      <SmoothScroll>
+      <PitLaneIntro isDark={isDark} />
       {/* Spacer for fixed header */}
       <div className="h-14" />
 
       {/* Main content area */}
-      <main className="max-w-[1140px] mx-auto px-6 md:px-8 pt-8 pb-24">
+      <main id="portfolio" tabIndex={-1} className="max-w-[1140px] mx-auto px-6 md:px-8 pt-8 pb-24">
         <HeroBanner isDark={isDark} />
         <ProfileSection />
       </main>
+      </SmoothScroll>
     </div>
   );
 }
+

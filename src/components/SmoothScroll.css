@@ -1,0 +1,9 @@
+html.site-smooth-enabled, .site-smooth-enabled body {height:100%;overflow:hidden;scroll-behavior:auto;}
+.site-smooth-enabled .site-scroll {position:fixed;inset:0;overflow:hidden;}
+.site-scroll-page {min-height:100vh;}
+.site-smooth-enabled .scroll-content {display:flow-root;will-change:transform;}
+.site-scroll-track {position:fixed!important;top:0!important;right:0!important;bottom:0!important;width:6px!important;z-index:85!important;background:transparent!important;}
+.site-scroll-track .scrollbar-thumb {width:5px!important;border-radius:4px;background:#6669;}
+[data-site-scroll-glow] {position:fixed!important;inset:0;z-index:84;pointer-events:none;}
+.site-scroll .scrollbar-track-x {display:none!important;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important;}}

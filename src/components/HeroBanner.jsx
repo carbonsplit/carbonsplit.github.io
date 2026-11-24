@@ -1,6 +1,6 @@
 export default function HeroBanner({ isDark }) {
   return (
-    <section className="w-full">
+    <section data-pit-banner className="w-full">
       <div
         className="
           relative w-full
@@ -52,3 +52,4 @@ export default function HeroBanner({ isDark }) {
     </section>
   );
 }
+
