@@ -45,7 +45,7 @@ export default function PitLaneIntro({ isDark }) {
         light: { hubs: [[282,571],[771,573]], width: 1253, height: 848, left: 68, right: 1034, top: 336, bottom: 644 },
       };
 
-      let carPoints = [], wheelPoints = [];
+      let wheelPoints = [];
       world = buildPitScene();
       world.ready.then(() => {
         if (dead) return;
@@ -55,25 +55,6 @@ export default function PitLaneIntro({ isDark }) {
         room.dispose(); pmrem.dispose();
         world.model.traverse(o => { if(o.isMesh) for(const m of (Array.isArray(o.material)?o.material:[o.material])) { if(m.isMeshStandardMaterial) {m.envMap=environment.texture; m.envMapIntensity=.06;m.needsUpdate=true;} } });
         world.car.updateMatrixWorld(true);
-        const slices = new Map(), vertex = new T.Vector3();
-        world.model.traverse(mesh => {
-          if (!mesh.isMesh || !mesh.visible) return;
-          const positions = mesh.geometry.attributes.position;
-          for (let i = 0; i < positions.count; i++) {
-            vertex.fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld);
-            const key = Math.round(vertex.z * 100);
-            const slice = slices.get(key);
-            if (!slice) {
-              slices.set(key, [vertex.clone(), vertex.clone(), vertex.clone(), vertex.clone()]);
-              continue;
-            }
-            if (vertex.x < slice[0].x) slice[0].copy(vertex);
-            if (vertex.x > slice[1].x) slice[1].copy(vertex);
-            if (vertex.y < slice[2].y) slice[2].copy(vertex);
-            if (vertex.y > slice[3].y) slice[3].copy(vertex);
-          }
-        });
-        carPoints = [...slices.values()].flat();
         wheelPoints = ['Object_62','Object_56'].map(name => new T.Box3().setFromObject(world.model.getObjectByName(name),true).getCenter(new T.Vector3()));
         if(import.meta.env.DEV) window.__PIT_ANCHORS__=wheelPoints;
         setLoading(false);
@@ -106,7 +87,7 @@ export default function PitLaneIntro({ isDark }) {
       const projectCar = () => {
         camera.updateMatrixWorld(true);
         let left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
-        for (const point of (wheelPoints.length ? wheelPoints : carPoints)) {
+        for (const point of wheelPoints) {
           projected.copy(point).project(camera);
           const x = (projected.x + 1) * width / 2, y = (1 - projected.y) * height / 2;
           left = Math.min(left, x); right = Math.max(right, x);
@@ -243,7 +224,7 @@ export default function PitLaneIntro({ isDark }) {
         meter.current.style.transform = `scaleX(${p})`;
         stage.current.style.setProperty('--intro-end', String(end));
 
-        composer.render();
+        if (wheelPoints.length) composer.render();
       };
       draw();
 
@@ -283,6 +264,7 @@ export default function PitLaneIntro({ isDark }) {
     {createPortal(
       <div ref={stage} className="pit-stage">
         <canvas ref={canvas} aria-hidden="true" />
+        {loading && <img className="pit-loading-poster" alt="" src={isDark ? "/banner_dark.jpg" : "/banner_light.jpg"} />}
         {loading && <div className="pit-loading" role="status">Preparing the Mustang…</div>}
         <div className="pit-shade" />
         <img ref={photo} className="pit-photo" src={isDark ? '/banner_dark.jpg' : '/banner_light.jpg'} alt="" aria-hidden="true" />

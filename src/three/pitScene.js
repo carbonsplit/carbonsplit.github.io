@@ -2,6 +2,7 @@ import * as T from 'three';
 import { createPitEquipment } from './pitEquipment.js';
 import { installCarFinish } from './carFinish.js';
 import { fitBannerProportions } from './bannerProportions.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export function buildPitScene() {
@@ -149,7 +150,8 @@ export function buildPitScene() {
     geometries.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());
   };
   const sourceMaterials=new Set(), sourceTextures=new Set();
-  const ready = new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}ford_mustang_gt3.glb`).then(async gltf => {
+  const decoder = new DRACOLoader().setWorkerLimit(2);
+  const ready = new GLTFLoader().setDRACOLoader(decoder).loadAsync(`${import.meta.env.BASE_URL}models/mustang-web-v1.glb`).then(async gltf => {
     if(disposed){releaseModel(gltf.scene);return;}
     const model=gltf.scene;carModel=model;
     model.rotation.y=Math.PI/2;
@@ -196,6 +198,7 @@ export function buildPitScene() {
     updateEffects,
     dispose() {
       disposed=true;
+      decoder.dispose();
       finish?.dispose();
       releaseModel(carModel);
       sourceTextures.forEach(t=>t.dispose());sourceMaterials.forEach(m=>m.dispose());
