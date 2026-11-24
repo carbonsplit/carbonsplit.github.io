@@ -1,4 +1,4 @@
-import{Color as e,HalfFloatType as t,MeshBasicMaterial as n,ShaderMaterial as r,UniformsUtils as i,Vector2 as a,Vector3 as o,WebGLRenderTarget as s}from"./three.module-CfV2IkVI.js";import{t as c}from"./CopyShader-CHGAmNbz.js";import{n as l,t as u}from"./Pass-zXwuBOQO.js";var d={name:`LuminosityHighPassShader`,uniforms:{tDiffuse:{value:null},luminosityThreshold:{value:1},smoothWidth:{value:1},defaultColor:{value:new e(0)},defaultOpacity:{value:0}},vertexShader:`
+import{Color as e,HalfFloatType as t,MeshBasicMaterial as n,ShaderMaterial as r,UniformsUtils as i,Vector2 as a,Vector3 as o,WebGLRenderTarget as s}from"./three.module-CV7E2AZn.js";import{t as c}from"./CopyShader-CHGAmNbz.js";import{n as l,t as u}from"./Pass-BN3LHFcJ.js";var d={name:`LuminosityHighPassShader`,uniforms:{tDiffuse:{value:null},luminosityThreshold:{value:1},smoothWidth:{value:1},defaultColor:{value:new e(0)},defaultOpacity:{value:0}},vertexShader:`
 
 		varying vec2 vUv;
 

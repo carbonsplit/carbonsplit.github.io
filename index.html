@@ -16,8 +16,7 @@
     <meta name="twitter:title" content="CarbonSplit" />
     <meta name="twitter:description" content="FX, metals, futures & risk assessment" />
 
-    <!-- Preload LCP Image -->
-    <link rel="preload" as="image" href="./pit-opening.webp" imagesrcset="pit-opening-mobile.webp 390w, pit-opening.webp 1280w" imagesizes="100vw" fetchpriority="high" media="(prefers-reduced-motion: no-preference)" />
+    <!-- Preload Mustang 3D model -->
     <link rel="preload" as="fetch" crossorigin="anonymous" href="./models/mustang-web-v2.glb" media="(prefers-reduced-motion: no-preference)" />
 
     <!-- Google Fonts: Inter (Non-render blocking) -->
@@ -51,10 +50,35 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="./assets/index-GH0n1Rds.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CztTu3Oy.css">
+    <style>
+      #pit-boot{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:#f1f1ee;color:#272b30;font-family:Inter,system-ui,sans-serif}
+      html.dark #pit-boot{background:#090e15;color:#edf2f7}
+      #pit-boot .core{width:clamp(220px,31vw,370px)}
+      #pit-boot svg{display:block;width:100%;height:auto}
+      #pit-boot .rail{height:1px;margin-top:18px;background:rgba(39,43,48,.12)}
+      html.dark #pit-boot .rail{background:rgba(237,242,247,.12)}
+      #pit-boot .meta{display:flex;justify-content:space-between;margin-top:10px;font-size:9px;letter-spacing:.24em;opacity:.55}
+      #pit-boot .dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:#f97316;vertical-align:middle;margin:0 6px}
+      html.dark #pit-boot .dot{background:#ff8b35}
+      @media(max-width:700px){#pit-boot .core{width:min(74vw,300px)}}
+      @media(prefers-reduced-motion:reduce){#pit-boot{display:none}}
+    </style>
+    <script type="module" crossorigin src="./assets/index-BLEtGJ1e.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DNXhvd_Y.css">
   </head>
   <body>
-    <div id="root"><picture><source media="(prefers-reduced-motion: reduce)" srcset="banner_dark.jpg"><img src="./pit-opening.webp" srcset="pit-opening-mobile.webp 390w, pit-opening.webp 1280w" sizes="100vw" fetchpriority="high" alt="CarbonSplit pit lane" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;background:#090e15"></picture></div>
+    <div id="root">
+      <div id="pit-boot" aria-hidden="true">
+        <div class="core">
+          <svg viewBox="0 0 276 84">
+            <defs><pattern id="pb-s" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="3.27" fill="currentColor" opacity=".085"/></pattern></defs>
+            <rect width="276" height="84" fill="url(#pb-s)"/>
+            <path fill="currentColor" d="M13.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M25.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M37.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M1.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M49.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M1.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M37.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M49.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M1.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M25.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M49.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M1.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M13.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M49.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M1.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M49.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M13.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M25.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M37.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M85.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M97.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M109.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M73.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M121.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M73.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M109.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M121.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M73.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M97.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M121.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M73.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M85.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M121.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M73.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M121.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M85.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M97.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M109.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M157.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M169.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M181.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M145.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M193.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M145.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M181.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M193.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M145.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M169.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M193.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M145.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M157.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M193.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M145.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M193.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M157.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M169.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M181.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M217.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M229.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M265.7,6a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M217.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M229.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M265.7,18a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M253.7,30a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M241.7,42a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M229.7,54a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M217.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M253.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M265.7,66a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M217.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M253.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0M265.7,78a4.3,4.3 0 1,0 8.6,0a4.3,4.3 0 1,0 -8.6,0"/>
+          </svg>
+          <div class="rail"></div>
+          <div class="meta"><span>PIT<i class="dot"></i>64</span><span>INIT</span></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
