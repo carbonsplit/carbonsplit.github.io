@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, '../../public/data');
+const mirrorDir = resolve(here, '../../data');
 
 const [kind = 'stats', explicit] = process.argv.slice(2);
 if (!['stats', 'calendar'].includes(kind)) {
@@ -33,6 +34,12 @@ function newestDownload(prefix) {
 
 const readJSON = (f, fallback) => (existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : fallback);
 const writeJSON = (f, data) => writeFileSync(f, `${JSON.stringify(data, null, 2)}\n`);
+const saveJSON = (name, data) => {
+  const target = join(dataDir, name);
+  writeJSON(target, data);
+  if (existsSync(mirrorDir)) writeJSON(join(mirrorDir, name), data);
+  console.log(`\nUpdated ${target}`);
+};
 
 /* ---------- stats ---------- */
 
@@ -66,8 +73,7 @@ function importStats(input) {
     if (current[k] === merged[k]) continue;
     console.log(`  ${k.padEnd(18)} ${String(current[k] ?? '—').padStart(22)}  →  ${merged[k]}`);
   }
-  writeJSON(target, merged);
-  console.log(`\nUpdated ${target}`);
+  saveJSON('stats.json', merged);
 }
 
 /* ---------- calendar ---------- */
@@ -96,8 +102,7 @@ function importCalendar(input) {
   console.log(`  ${month}: ${incoming.events.length} trading days (replacing ${replaced}), net ${net >= 0 ? '+' : '-'}$${Math.abs(net).toFixed(2)}`);
   for (const e of incoming.events) console.log(`    ${e.startTime.slice(0, 10)}  ${e.title}`);
 
-  writeJSON(target, Array.isArray(current) ? events : { ...current, events });
-  console.log(`\nUpdated ${target}`);
+  saveJSON('calendar.json', Array.isArray(current) ? events : { ...current, events });
 }
 
 const input = explicit ? resolve(explicit) : newestDownload(kind === 'stats' ? 'carbon-stats' : 'carbon-calendar');

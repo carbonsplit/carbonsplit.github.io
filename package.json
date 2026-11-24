@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "oxlint src tests",
+    "test": "node --test \"tests/*.test.mjs\"",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist --nojekyll",
     "bookmarklet": "node tools/stats-bookmarklet/build.mjs",
     "import-stats": "node tools/stats-bookmarklet/import.mjs stats",
     "import-calendar": "node tools/stats-bookmarklet/import.mjs calendar"

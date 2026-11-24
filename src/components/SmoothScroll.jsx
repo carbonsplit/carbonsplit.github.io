@@ -3,6 +3,7 @@ import Scrollbar from 'smooth-scrollbar';
 import OverscrollPlugin from 'smooth-scrollbar/plugins/overscroll';
 import { SCROLL_SETTINGS,setSiteScrollbar,scrollToElement } from '../lib/siteScroll';
 import './SmoothScroll.css';
+// oxlint-disable-next-line react-hooks/rules-of-hooks
 Scrollbar.use(OverscrollPlugin);
 
 export default function SmoothScroll({children}){
