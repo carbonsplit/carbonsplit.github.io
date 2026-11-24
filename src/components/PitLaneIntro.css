@@ -1,5 +1,71 @@
 .pit-intro{height:330vh;position:relative;background:#090e15}.pit-stage{position:fixed;inset:0;z-index:60;overflow:hidden;background:#090e15;color:#f0f3f7}.pit-stage canvas{width:100%;height:100%;display:block}.pit-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(4,8,14,.7),transparent 30%);opacity:calc(1 - var(--intro-end,0))}.pit-photo{position:absolute;object-fit:cover;object-position:center;opacity:0;pointer-events:none}.pit-top{position:absolute;top:32px;left:4.5%;right:4.5%;display:flex;align-items:center;justify-content:space-between;gap:20px;opacity:calc(1 - var(--intro-end,0))}.pit-top a{font-size:15px;letter-spacing:.12em;font-weight:700;text-decoration:none;color:inherit}.pit-top a span{font-weight:300;color:#9eacb9}.pit-top button{font-size:12px;border:1px solid #ffffff35;border-radius:24px;padding:10px 18px;cursor:pointer;background:#10172077}.pit-top button:hover{background:#ffffff20}.pit-live{font-size:10px;letter-spacing:.16em;color:#bac5d0}.pit-live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff8b35;margin-right:10px;box-shadow:0 0 12px #ff8b35}.pit-copy{position:absolute;left:7%;top:32%;pointer-events:none}.pit-copy>p{font-size:10px;letter-spacing:.3em;color:#c1cbd5;margin-bottom:22px}.pit-copy h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(60px,7.7vw,120px);line-height:.98;letter-spacing:-.035em;margin:0}.pit-copy h1 em{font-weight:400;color:#c5d5e5}.pit-caption{margin-top:28px;font-size:12px;line-height:1.9;color:#b1bdc9}.pit-footer{position:absolute;left:4.5%;right:4.5%;bottom:34px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.2em;color:#bdc9d3;opacity:calc(1 - var(--intro-end,0));pointer-events:none}.pit-footer b{margin-left:18px;font-size:18px}.pit-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:#ffffff15}.pit-progress>div{height:100%;background:#eaa665;transform-origin:left;transform:scaleX(0)}@media(max-width:700px){.pit-intro{height:290vh}.pit-live{display:none}.pit-copy{left:7%;top:28%}.pit-copy h1{font-size:64px}.pit-footer span:last-child{display:none}.pit-top{top:22px}.pit-shade{background:linear-gradient(0deg,#05090f80,transparent 45%)}}@media(prefers-reduced-motion:reduce){.pit-intro{display:none}}
 
-.pit-loading{position:absolute;bottom:80px;left:4.5%;z-index:2;color:#cbd5e1;font-size:12px;letter-spacing:.08em}
-
-.pit-loading-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.pit-loader{
+  position:absolute;inset:0;z-index:20;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  --loader-bg:#f1f1ee;--loader-ink:#272b30;--loader-muted:rgba(39,43,48,.46);
+  --loader-rail:rgba(39,43,48,.12);--loader-accent:#f97316;--loader-border:rgba(39,43,48,.18);
+  color:var(--loader-ink);
+}
+.pit-loader.is-dark{
+  --loader-bg:#090e15;--loader-ink:#edf2f7;--loader-muted:rgba(237,242,247,.46);
+  --loader-rail:rgba(237,242,247,.12);--loader-accent:#ff8b35;--loader-border:rgba(255,255,255,.22);
+}
+.pit-loader-blade{
+  position:absolute;left:0;right:0;height:50.5%;background:var(--loader-bg);z-index:0;
+  transition:transform 620ms cubic-bezier(.76,0,.24,1);will-change:transform;
+}
+.pit-loader-blade--top{top:0}
+.pit-loader-blade--bottom{bottom:0}
+.pit-loader.is-exiting{pointer-events:none}
+.pit-loader.is-exiting .pit-loader-blade--top{transform:translateY(-100%);transition-delay:90ms}
+.pit-loader.is-exiting .pit-loader-blade--bottom{transform:translateY(100%);transition-delay:90ms}
+.pit-loader-seam{
+  position:absolute;left:0;right:0;top:50%;height:1px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--loader-accent) 22%,var(--loader-ink) 50%,var(--loader-accent) 78%,transparent);
+  transform:scaleX(0);opacity:0;
+  transition:transform 240ms cubic-bezier(.22,1,.36,1),opacity 220ms ease;
+}
+.pit-loader.is-exiting .pit-loader-seam{transform:scaleX(1);opacity:.85}
+.pit-loader-top{
+  position:absolute;top:32px;left:4.5%;right:4.5%;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  transition:opacity 180ms ease;
+}
+.pit-loader.is-exiting .pit-loader-top,.pit-loader.is-exiting .pit-loader-core{opacity:0}
+.pit-loader.is-exiting .pit-loader-core{transform:scale(.96)}
+.pit-loader-brand{font-size:15px;letter-spacing:.12em;font-weight:700}
+.pit-loader-brand span{font-weight:300;color:var(--loader-muted)}
+.pit-loader-skip{
+  font-size:12px;border:1px solid var(--loader-border);border-radius:24px;
+  padding:10px 18px;cursor:pointer;background:transparent;color:var(--loader-ink);
+  transition:background 150ms ease;
+}
+.pit-loader-skip:hover{background:var(--loader-rail)}
+.pit-loader-core{
+  position:relative;z-index:2;width:clamp(220px,31vw,370px);
+  transition:opacity 220ms ease,transform 280ms cubic-bezier(.22,1,.36,1);
+}
+.pit-loader-matrix{display:block;width:100%;height:auto;overflow:visible}
+.pit-dot{
+  fill:var(--loader-ink);opacity:.085;
+  transform:scale(.76);transform-origin:center;transform-box:fill-box;
+  transition:opacity 45ms linear,transform 75ms cubic-bezier(.22,1,.36,1);
+}
+.pit-dot.is-on{opacity:1;transform:scale(1)}
+.pit-loader.is-dark .pit-dot.is-on{filter:drop-shadow(0 0 3px rgba(237,242,247,.32))}
+.pit-loader-rail{position:relative;height:1px;margin-top:18px;background:var(--loader-rail)}
+.pit-loader-rail-fill{position:absolute;inset:0;background:var(--loader-ink);opacity:.45;transform-origin:left}
+.pit-loader-rail-head{
+  position:absolute;top:50%;width:5px;height:5px;border-radius:50%;
+  background:var(--loader-accent);transform:translate(-50%,-50%);
+  box-shadow:0 0 10px var(--loader-accent);
+}
+.pit-loader-meta{
+  display:flex;align-items:center;justify-content:space-between;margin-top:10px;
+  font-size:9px;letter-spacing:.24em;font-weight:500;color:var(--loader-muted);
+}
+.pit-loader-tag{display:inline-flex;align-items:center;gap:6px;color:var(--loader-ink);opacity:.78}
+.pit-loader-tag i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--loader-accent);box-shadow:0 0 8px var(--loader-accent)}
+@media(max-width:700px){.pit-loader-top{top:22px}.pit-loader-core{width:min(74vw,300px)}}
+@media(prefers-reduced-motion:reduce){.pit-loader{display:none}}

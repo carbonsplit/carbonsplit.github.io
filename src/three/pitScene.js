@@ -5,7 +5,7 @@ import { fitBannerProportions } from './bannerProportions.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-export function buildPitScene() {
+export function buildPitScene(onProgress) {
   const scene = new T.Scene();
   scene.background = new T.Color('#090e15');
   scene.fog = new T.FogExp2('#111925', .018);
@@ -151,7 +151,14 @@ export function buildPitScene() {
   };
   const sourceMaterials=new Set(), sourceTextures=new Set();
   const decoder = new DRACOLoader().setWorkerLimit(2);
-  const ready = new GLTFLoader().setDRACOLoader(decoder).loadAsync(`${import.meta.env.BASE_URL}models/mustang-web-v2.glb`).then(async gltf => {
+  const ready = new GLTFLoader().setDRACOLoader(decoder).loadAsync(
+    `${import.meta.env.BASE_URL}models/mustang-web-v2.glb`,
+    e => {
+      if (disposed || !onProgress) return;
+      const total = e.lengthComputable && e.total > 0 ? e.total : 3866172;
+      onProgress(Math.min(1, e.loaded / total));
+    }
+  ).then(async gltf => {
     if(disposed){releaseModel(gltf.scene);return;}
     const model=gltf.scene;carModel=model;
     model.rotation.y=Math.PI/2;
