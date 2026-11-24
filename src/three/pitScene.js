@@ -151,7 +151,7 @@ export function buildPitScene() {
   };
   const sourceMaterials=new Set(), sourceTextures=new Set();
   const decoder = new DRACOLoader().setWorkerLimit(2);
-  const ready = new GLTFLoader().setDRACOLoader(decoder).loadAsync(`${import.meta.env.BASE_URL}models/mustang-web-v1.glb`).then(async gltf => {
+  const ready = new GLTFLoader().setDRACOLoader(decoder).loadAsync(`${import.meta.env.BASE_URL}models/mustang-web-v2.glb`).then(async gltf => {
     if(disposed){releaseModel(gltf.scene);return;}
     const model=gltf.scene;carModel=model;
     model.rotation.y=Math.PI/2;

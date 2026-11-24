@@ -23,7 +23,7 @@ export function installCarFinish(T, car, model, originalHorseTexture) {
   // Author decals in physical side-profile coordinates, not guessed atlas islands.
   // x=[-2.55,2.55], y=[0,1.6]; the same artwork reads forward on either flank.
   function artwork(emission=false,mirrorPlate=false) {
-    const c=document.createElement('canvas');c.width=3072;c.height=1024;
+    const c=document.createElement('canvas');c.width=2048;c.height=768;
     const ctx=c.getContext('2d'); ctx.fillStyle=emission?'black':'#122336';ctx.fillRect(0,0,c.width,c.height);
     const sx=c.width/5.1, sy=c.height/1.6;
     const ref=(x,y)=>[( (x-270)/167-1.29+2.55)*sx,(1.6-(.405+(548-y)/167))*sy];

@@ -17,7 +17,8 @@
     <meta name="twitter:description" content="FX, metals, futures & risk assessment" />
 
     <!-- Preload LCP Image -->
-    <link rel="preload" as="image" href="./banner_light.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="/pit-opening.webp" imagesrcset="/pit-opening-mobile.webp 390w, /pit-opening.webp 1280w" imagesizes="100vw" fetchpriority="high" media="(prefers-reduced-motion: no-preference)" />
+    <link rel="preload" as="fetch" crossorigin="anonymous" href="/models/mustang-web-v2.glb" media="(prefers-reduced-motion: no-preference)" />
 
     <!-- Google Fonts: Inter (Non-render blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,7 +53,7 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><picture><source media="(prefers-reduced-motion: reduce)" srcset="/banner_dark.jpg"><img src="/pit-opening.webp" srcset="/pit-opening-mobile.webp 390w, /pit-opening.webp 1280w" sizes="100vw" fetchpriority="high" alt="CarbonSplit pit lane" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;background:#090e15"></picture></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

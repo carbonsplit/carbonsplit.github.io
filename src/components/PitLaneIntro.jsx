@@ -57,7 +57,7 @@ export default function PitLaneIntro({ isDark }) {
         world.car.updateMatrixWorld(true);
         wheelPoints = ['Object_62','Object_56'].map(name => new T.Box3().setFromObject(world.model.getObjectByName(name),true).getCenter(new T.Vector3()));
         if(import.meta.env.DEV) window.__PIT_ANCHORS__=wheelPoints;
-        setLoading(false);
+        // Keep the opening still until the first interactive frame is rendered.
       }).catch(error => {
         console.error("Mustang model failed to load", error);
         if (!dead) setUnavailable(true);
@@ -133,6 +133,7 @@ export default function PitLaneIntro({ isDark }) {
 
 
 
+      let revealed = false;
       const draw = () => {
         if (dead) return;
         frame = requestAnimationFrame(draw);
@@ -224,7 +225,7 @@ export default function PitLaneIntro({ isDark }) {
         meter.current.style.transform = `scaleX(${p})`;
         stage.current.style.setProperty('--intro-end', String(end));
 
-        if (wheelPoints.length) composer.render();
+        if (wheelPoints.length) {composer.render(); if(!revealed){revealed=true;setLoading(false);}}
       };
       draw();
 
@@ -264,7 +265,7 @@ export default function PitLaneIntro({ isDark }) {
     {createPortal(
       <div ref={stage} className="pit-stage">
         <canvas ref={canvas} aria-hidden="true" />
-        {loading && <img className="pit-loading-poster" alt="" src={isDark ? "/banner_dark.jpg" : "/banner_light.jpg"} />}
+        {loading && <img className="pit-loading-poster" alt="" src="/pit-opening.webp" srcSet="/pit-opening-mobile.webp 390w, /pit-opening.webp 1280w" sizes="100vw" fetchPriority="high" />}
         {loading && <div className="pit-loading" role="status">Preparing the Mustang…</div>}
         <div className="pit-shade" />
         <img ref={photo} className="pit-photo" src={isDark ? '/banner_dark.jpg' : '/banner_light.jpg'} alt="" aria-hidden="true" />
