@@ -31,6 +31,7 @@ export default function App() {
       <main id="portfolio" tabIndex={-1} className="max-w-[1140px] mx-auto px-6 md:px-8 pt-8 pb-24">
         <HeroBanner isDark={isDark} />
         <ProfileSection />
+        <a href="/model-credits.txt" className="mt-8 inline-block text-xs underline opacity-70">3D model credits</a>
       </main>
       </SmoothScroll>
     </div>
