@@ -6,6 +6,7 @@ import './PitLaneIntro.css';
 
 export default function PitLaneIntro({ isDark }) {
   const root = useRef(null), stage = useRef(null), canvas = useRef(null), photo = useRef(null), meter = useRef(null);
+  const frameEl = useRef(null), backdrop = useRef(null);
   const [unavailable, setUnavailable] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [loadProgress, setLoadProgress] = useState(6);
@@ -81,12 +82,7 @@ export default function PitLaneIntro({ isDark }) {
         window.__PIT_VIEW__ = {camera, renderer};
         cleanup.push(() => { if(window.__PIT_VIEW__?.camera===camera){delete window.__PIT_VIEW__;delete window.__PIT_ANCHORS__;} });
       }
-      const path = new T.CatmullRomCurve3([
-        new T.Vector3(17, 2.3, 4.6), new T.Vector3(10, 2, 6),
-        new T.Vector3(3.4, 2.7, 11), new T.Vector3(.56744, 2.59419, 12.2),
-      ]);
-
-      // Fixed elevated three-quarter direction during the final dolly.
+      // Elevated three-quarter axis the hero frame is shot on.
       // Moving along this ray preserves pitch/yaw instead of dropping to door height.
       const aim = new T.Vector3(0, .75, 0);
       const approach = new T.Vector3(.4 / 8.6, 1.30 / 8.6, 1);
@@ -95,7 +91,22 @@ export default function PitLaneIntro({ isDark }) {
         camera.up.set(0, 1, 0);
         camera.lookAt(aim);
       };
-      const orbitOffset = new T.Vector3();
+
+      // One continuous camera rail: a crane shot that drifts down the pit lane,
+      // sweeps around the nose and settles onto the hero axis. Centripetal
+      // Catmull-Rom keeps the curvature even so the speed never hitches.
+      const rail = new T.CatmullRomCurve3([
+        new T.Vector3(17, 2.3, 4.6),
+        new T.Vector3(12.4, 2.3, 6.2),
+        new T.Vector3(7.4, 2.1, 8.6),
+        new T.Vector3(3.1, 2.4, 11.2),
+        aim.clone().addScaledVector(approach, 12.2),
+      ], false, 'centripetal');
+      // Where the lens is pointed early on: down the lane, ahead of the car.
+      const lead = new T.Vector3(-2.4, 1.25, -1.4);
+      const FINAL_FOV = 32;
+      const orbitPos = new T.Vector3(), lockPos = new T.Vector3(), lookAt = new T.Vector3();
+      const lock = { distance: 12.2, shiftX: 0, shiftY: 0 };
       const projected = new T.Vector3();
       const projectCar = () => {
         camera.updateMatrixWorld(true);
@@ -142,101 +153,143 @@ export default function PitLaneIntro({ isDark }) {
       cleanup.push(() => removeEventListener('resize', fit));
 
       const clamp = x => Math.max(0, Math.min(1, x));
-      const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+      const lerp = T.MathUtils.lerp;
+      // Quintic smootherstep: zero velocity *and* acceleration at both ends, so
+      // overlapping phases hand over without a visible jolt.
+      const smoother = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * t * (t * (t * 6 - 15) + 10); };
+      // CSS-style cubic-bezier easing (x1,y1,x2,y2) solved with Newton steps.
+      const bezier = (x1, y1, x2, y2) => {
+        const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+        const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+        const sx = t => ((ax * t + bx) * t + cx) * t, sy = t => ((ay * t + by) * t + cy) * t;
+        const dx = t => (3 * ax * t + 2 * bx) * t + cx;
+        return x => {
+          if (x <= 0 || x >= 1) return clamp(x);
+          let t = x;
+          for (let i = 0; i < 6; i++) { const d = dx(t); if (Math.abs(d) < 1e-6) break; t -= (sx(t) - x) / d; }
+          return sy(clamp(t));
+        };
+      };
+      // Responsive start, then a long glide into the final frame.
+      const cameraEase = bezier(.42, 0, .45, 1);
 
+      // Frame the car exactly as it sits in the banner photograph inside `rect`:
+      // dolly along the hero axis until the wheelbase matches, then shift the
+      // lens (off-axis projection) so the hubs land on the photo's hubs.
+      const solveLock = rect => {
+        const measured = bannerCars[theme.current ? 'dark' : 'light'];
+        const scale = Math.max(rect.width / measured.width, rect.height / measured.height);
+        const offsetX = rect.left + (rect.width - measured.width * scale) / 2;
+        const offsetY = rect.top + (rect.height - measured.height * scale) / 2;
+        const photoWidth = (measured.hubs[1][0] - measured.hubs[0][0]) * scale;
+        const photoCentreX = offsetX + (measured.hubs[0][0] + measured.hubs[1][0]) * scale / 2;
+        const photoBottom = offsetY + Math.max(measured.hubs[0][1], measured.hubs[1][1]) * scale;
+        camera.fov = FINAL_FOV;
+        camera.updateProjectionMatrix();
+        let near = 2.2, far = 60;
+        for (let i = 0; i < 20; i++) {
+          const mid = (near + far) / 2;
+          setDolly(mid);
+          const box = projectCar();
+          if (box.right - box.left > photoWidth) near = mid; else far = mid;
+        }
+        lock.distance = (near + far) / 2;
+        setDolly(lock.distance);
+        const box = projectCar();
+        lock.shiftX = 2 * (photoCentreX - (box.left + box.right) / 2) / width;
+        lock.shiftY = 2 * (photoBottom - box.bottom) / height;
+      };
 
-
-      let warmupFrames = 0;
+      let warmupFrames = 0, eased = null, lastTime = performance.now();
       const draw = () => {
         if (dead) return;
         frame = requestAnimationFrame(draw);
+        const now = performance.now(), dt = Math.min(.1, (now - lastTime) / 1000);
+        lastTime = now;
         const bounds = root.current.getBoundingClientRect(), p = clamp(-bounds.top / root.current.offsetHeight);
-        stage.current.style.visibility = bounds.top + root.current.offsetHeight <= 0 ? 'hidden' : 'visible';
-        if (bounds.top + root.current.offsetHeight <= 0 || document.hidden) return;
+        const gone = bounds.top + root.current.offsetHeight <= 0;
+        stage.current.style.visibility = gone ? 'hidden' : 'visible';
+        if (gone || document.hidden) { eased = p; return; }
 
-        // Establish orientation during early approach/orbit (p <= 0.56) and hold it rock-solid throughout straight zoom.
-        const travel = smooth(0, .56, p);
-        camera.position.copy(path.getPointAt(travel));
-        const sideDistance = width < 700 ? 16.8 : 12.2;
-        if (width < 700) camera.position.addScaledVector(approach, 4.6);
-        camera.lookAt(aim);
-        camera.fov = T.MathUtils.lerp(45, 32, smooth(.20, .56, p));
+        // Critically damped follow on top of the smooth scroller: the camera
+        // carries a little weight instead of being bolted to the wheel.
+        if (eased === null) eased = p;
+        eased += (p - eased) * (1 - Math.exp(-dt / .14));
+        if (Math.abs(p - eased) < 1e-4) eased = p;
+        const s = eased;
 
-        camera.updateProjectionMatrix();
+        // Overlapping beats (scroll progress):
+        //   camera  0 ──────────── .90  one eased move, never stops mid-way
+        //   lock         ~.35 ─── .88  blend onto the photo-matched framing
+        //   dock            .70 ───── 1  frame shrinks into the banner slot
+        //   dissolve          .78 ── .93 3D melts into the photograph
+        const u = cameraEase(clamp(s / .9));
+        const dock = smoother(.70, 1, s);
+        const dissolve = smoother(.78, .93, s);
+        const hud = smoother(.60, .80, s);
 
-        // Begin the push while the orbit is still moving; no stop/restart at side-on.
-        const zoom = smooth(.34, .82, p);
-        const end = smooth(.87, 1, p);
-        const target = document.querySelector('[data-pit-banner]')?.getBoundingClientRect();
+        // Docking rect: centre glides linearly, size scales geometrically so
+        // the shrink reads as an even zoom rather than slowing at the end.
         const rect = { left: 0, top: 0, width, height };
-        if (target) {
-          rect.left = target.left * end;
-          rect.top = target.top * end;
-          rect.width = width + (target.width - width) * end;
-          rect.height = height + (target.height - height) * end;
+        const target = document.querySelector('[data-pit-banner]')?.getBoundingClientRect();
+        if (target && dock > 0) {
+          rect.width = width * Math.pow(target.width / width, dock);
+          rect.height = height * Math.pow(target.height / height, dock);
+          const cx = lerp(width / 2, target.left + target.width / 2, dock);
+          const cy = lerp(height / 2, target.top + target.height / 2, dock);
+          rect.left = cx - rect.width / 2;
+          rect.top = cy - rect.height / 2;
         }
-        stage.current.style.clipPath = `inset(${Math.max(0, rect.top)}px ${width - rect.left - rect.width}px ${Math.max(0, height - rect.top - rect.height)}px ${rect.left}px round ${16 * end}px)`;
+        const r = 16 * dock;
+        frameEl.current.style.clipPath = `inset(${rect.top}px ${width - rect.left - rect.width}px ${height - rect.top - rect.height}px ${rect.left}px round ${r}px)`;
         Object.assign(photo.current.style, {
-          left: `${rect.left}px`,
-          top: `${rect.top}px`,
-          width: `${rect.width}px`,
-          height: `${rect.height}px`,
+          left: `${rect.left}px`, top: `${rect.top}px`,
+          width: `${rect.width}px`, height: `${rect.height}px`,
+          opacity: String(dissolve),
         });
+        // Surround eases from the pit's night tone to the page colour, then lifts away,
+        // so the page arrives around the frame instead of popping in.
+        const tone = smoother(.68, .9, s), page = theme.current ? [10, 10, 10] : [250, 250, 250];
+        backdrop.current.style.backgroundColor = `rgb(${[9, 14, 21].map((c, i) => Math.round(lerp(c, page[i], tone))).join(',')})`;
+        backdrop.current.style.opacity = String(1 - smoother(.8, 1, s));
 
-        if (p > .34 && wheelPoints.length === 2) {
-          orbitOffset.copy(camera.position).sub(aim).addScaledVector(approach, -sideDistance);
-          const measured = bannerCars[theme.current ? 'dark' : 'light'];
-          const scale = Math.max(rect.width / measured.width, rect.height / measured.height);
-          const offsetX = rect.left + (rect.width - measured.width * scale) / 2;
-          const offsetY = rect.top + (rect.height - measured.height * scale) / 2;
-          const photoWidth = (measured.hubs[1][0] - measured.hubs[0][0]) * scale;
-          const photoCentreX = offsetX + (measured.hubs[0][0] + measured.hubs[1][0]) * scale / 2;
-          const photoBottom = offsetY + Math.max(measured.hubs[0][1], measured.hubs[1][1]) * scale;
+        // Rail pose.
+        orbitPos.copy(rail.getPointAt(u));
+        if (width < 700) orbitPos.addScaledVector(approach, 4.6 * (1 - u));
+        lookAt.lerpVectors(lead, aim, smoother(0, .7, u));
+        const orbitFov = lerp(46, FINAL_FOV, smoother(.05, .95, u));
 
-          setDolly(sideDistance);
-
-          const start = projectCar();
-          const desiredWidth = T.MathUtils.lerp(start.right - start.left, photoWidth, zoom);
-
-          let near = 2.2, far = 60;
-          for (let i = 0; i < 18; i++) {
-            setDolly((near + far) / 2);
-            const box = projectCar();
-            if (box.right - box.left > desiredWidth) near = camera.position.z;
-            else far = camera.position.z;
-          }
-          setDolly((near + far) / 2);
-
-          // Frame on the calibrated axis; then restore the remaining orbital travel.
-          const matchedDistance = camera.position.z;
-          const box = projectCar();
-          const desiredX = T.MathUtils.lerp((start.left + start.right) / 2, photoCentreX, zoom);
-          const desiredBottom = T.MathUtils.lerp(start.bottom, photoBottom, zoom);
-
-          // Off-axis framing moves the projected image without tilting the camera
-          camera.projectionMatrix.elements[8] -= 2 * (desiredX - (box.left + box.right) / 2) / width;
-          camera.projectionMatrix.elements[9] += 2 * (desiredBottom - box.bottom) / height;
-          camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-          if(p < .56){
-            setDolly(matchedDistance);
-            camera.position.add(orbitOffset);
-            camera.lookAt(aim);
-          }
-
+        // Hero pose, matched to the photograph in the current rect.
+        let w = 0;
+        if (wheelPoints.length === 2) {
+          solveLock(rect);
+          lockPos.copy(camera.position);
+          w = smoother(.30, .97, u);
         }
 
-        // Section B, F, G: Update dynamic lighting, rotor intensity, and exhaust flame animation
-        world.updateEffects?.(p, performance.now() * 0.001, theme.current, reduced.matches);
+        const t = now * .001;
+        const life = 1 - w; // handheld breath fades out as the frame locks
+        camera.position.lerpVectors(orbitPos, lockPos, w);
+        camera.position.x += Math.sin(t * .61) * .045 * life + Math.sin(t * 1.37) * .012 * life;
+        camera.position.y += Math.sin(t * .47 + 1.3) * .03 * life;
+        lookAt.lerp(aim, w);
+        camera.up.set(0, 1, 0);
+        camera.lookAt(lookAt);
+        // Gentle bank into the sweep, like a crane arm swinging round.
+        camera.rotateZ((-.02 * Math.sin(Math.PI * u) + .0025 * Math.sin(t * .37)) * life);
+        camera.fov = lerp(orbitFov, FINAL_FOV, w);
+        camera.updateProjectionMatrix();
+        camera.projectionMatrix.elements[8] -= lock.shiftX * w;
+        camera.projectionMatrix.elements[9] += lock.shiftY * w;
+        camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
 
-        // Section H: Theme-sensitive restrained bloom
-        if (bloomPass) {
-          bloomPass.strength = theme.current ? 0.18 : 0.10;
-        }
+        world.updateEffects?.(s, t, theme.current, reduced.matches);
+        if (bloomPass) bloomPass.strength = theme.current ? 0.18 : 0.10;
 
-        // Short match dissolve at locked framing; then only the photograph docks.
-        photo.current.style.opacity = smooth(.82, .855, p);
+        // As the photograph comes up, the render softens and warms into it.
+        canvas.current.style.filter = dissolve > .002 ? `blur(${(3.5 * dissolve).toFixed(2)}px) brightness(${(1 + .18 * dissolve).toFixed(3)})` : '';
         meter.current.style.transform = `scaleX(${p})`;
-        stage.current.style.setProperty('--intro-end', String(end));
+        stage.current.style.setProperty('--intro-end', String(hud));
 
         if (wheelPoints.length) {
           composer.render();
@@ -287,9 +340,12 @@ export default function PitLaneIntro({ isDark }) {
     <section ref={root} className="pit-intro" aria-label="Scroll through the CarbonSplit pit lane" />
     {createPortal(
       <div ref={stage} className="pit-stage">
-        <canvas ref={canvas} aria-hidden="true" />
-        <div className="pit-shade" />
-        <img ref={photo} className="pit-photo" src={isDark ? '/banner_dark.jpg' : '/banner_light.jpg'} alt="" aria-hidden="true" />
+        <div ref={backdrop} className="pit-backdrop" />
+        <div ref={frameEl} className="pit-frame">
+          <canvas ref={canvas} aria-hidden="true" />
+          <div className="pit-shade" />
+          <img ref={photo} className="pit-photo" src={isDark ? '/banner_dark.jpg' : '/banner_light.jpg'} alt="" aria-hidden="true" />
+        </div>
         <div className="pit-top">
           <a href="#portfolio" onClick={e => { e.preventDefault(); skip(); }}>CARBON<span>SPLIT</span></a>
           <span className="pit-live"><i /> AFTER HOURS / PIT 64</span>
